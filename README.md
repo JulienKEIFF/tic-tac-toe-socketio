@@ -2,6 +2,8 @@
 
 > NOM et PRENOM des membres du binome
 
+BOIME Benoît - BRETIN Clément - KEIFF Julien
+
 ## Description
 
 Implémentation du **Tic Tac Toe** en **Node.js** jouable en ligne (serveur).
