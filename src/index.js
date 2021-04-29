@@ -1,23 +1,30 @@
 import express from 'express';
 
-const http = require('http');
-const socketIo = require("socket.io");
-
+const path = require('path');
 const app = express();
-const server = http.Server(app).listen(4001);
-const io = socketIo(server);
+const io = require('socket.io')(4001);
 const port = 4000;
 
-const grid =  [["","",""],["","",""],["","",""]]
+// Initialisation du jeu
+const board = [["", "", ""], ["", "", ""], ["", "", ""]];
+const player = [
+    {name: "player1", symbol: "O", hasWon: false},
+    {name: "player2", symbol: "X", hasWon: false}
+];
+const gameState = false;
 
-app.get('/', (req, res) => { res.send('Tic Tac Toe'); })
+
+
+
+app.get('/', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '..', 'public/index.html'));
+});
 
 io.sockets.on("connection", socket => {
-    console.log('client connected')
+    console.log('client connected');
 });
 
 
-
-
-
-app.listen(port, () => { console.log(`App listening at http://localhost:${port}`); });
+app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`);
+});
