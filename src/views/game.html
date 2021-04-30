@@ -8,50 +8,11 @@
 </head>
 <body class="p-5">
 
-<div id="game">
-    <h1 class="mx-auto">Tour du joueur N</h1>
-    <table class="table table-bordered mx-auto" style="width: 75%">
-        <tbody>
-        <tr>
-            <td class="py-5" style="text-align: center; font-size: 75px">0</td>
-            <td class="py-5" style="text-align: center; font-size: 75px">X</td>
-            <td class="py-5" style="text-align: center; font-size: 75px">0</td>
-        </tr>
-        <tr>
-            <td class="py-5" style="text-align: center; font-size: 75px">0</td>
-            <td class="py-5" style="text-align: center; font-size: 75px">X</td>
-            <td class="py-5" style="text-align: center; font-size: 75px">0</td>
-        </tr>
-        <tr>
-            <td class="py-5" style="text-align: center; font-size: 75px">0</td>
-            <td class="py-5" style="text-align: center; font-size: 75px">X</td>
-            <td class="py-5" style="text-align: center; font-size: 75px">0</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+
 
 </body>
 <script>
-    const socket = io("ws://localhost:4001");
-    socket.on("connect", () => {
-        alert("connected !!!!")
-    })
+    const socket = io();
 
-    const formButton = document.getElementById("form-button");
-    const playerForm = document.getElementById("player");
-
-    const formPage = document.getElementById("form");
-    const gamePage = document.getElementById("game")
-
-    formButton.onclick = () => {
-        const username = playerForm.value
-        if (username !== "") changePage(username);
-    }
-
-    function changePage(p_username) {
-        formPage.style.display = 'none';
-        gamePage.style.display = 'block';
-    }
 </script>
 </html>
