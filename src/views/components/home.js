@@ -22,7 +22,7 @@ Vue.component('home-view', {
                 <label for="game-id" class="form-label">ID de partie à rejoindre :</label>
                 <input type="text" class="form-control" id="game-id" v-model="gameID">
             </div>
-            <button type="submit" class="btn btn-primary" id="form-button-create" @click="$emit('join', {username: username, gameID: gameID}); $emit('create', '')">Créer une partie</button>
+            <button type="submit" class="btn btn-primary" id="form-button-create" @click="$emit('create', {username: username, gameID: gameID});">Créer une partie</button>
             <button type="submit" class="btn btn-secondary" id="form-button-join"  @click="$emit('join', {username: username, gameID: gameID})">Rejoindre une partie</button>
         </div>
     </div>

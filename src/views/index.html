@@ -11,8 +11,17 @@
 </head>
 <body class="p-5">
 <div id="app">
-    <home-view v-if="home" @join="changeState" @create="create = true"></home-view>
-    <game-view v-if="!home" @back="changeState"></game-view>
+    <home-view
+            v-if="home"
+            @create="createGame"
+    > </home-view>
+
+    <game-view
+            v-if="!home"
+            @back="changeState"
+            :playername="playerName"
+            :gameid="gameID"
+    > </game-view>
 </div>
 </body>
 <script>
@@ -22,32 +31,54 @@
         data() {
             return {
                 home: true,
-                username: "test",
-                roomID: 12254,
-                create: false
+                username: null,
+                roomID: null,
+                create: false,
+                playerName: "",
+                gameID: ""
             }
         },
         methods: {
             changeState: function (event) {
-                console.log(event)
-                this.home = !this.home;
-                if (!this.home && this.checkInfos() ) {
-                    socket.emit('join', {username: event.username, room: event.gameID});
+                if (this.checkInfos() ) {
+                    this.home = !this.home;
+                    socket.emit('join', {username: event.username, room: event.roomID});
+                    this.getPlayerName()
+                    this.gameID = event.roomID;
                 }
             },
             checkInfos: function() {
                 if(this.create){
-                    if(typeof this.username !== null ) return true
+                    if(this.username !== null && this.username !== "" ) return true
                     else return false
                 }else{
-                    if(typeof this.username !== null && typeof this.gameID !== null) return true
+                    if(typeof this.username !== null && this.username !== "" && typeof this.gameID !== null) return true
                     else return false
                 }
+            },
+            createGame: function(event){
+                this.create = true;
+                this.username = event.username;
+                //event.roomID = this.generateRoomId();
+                event.roomID = this.generateRoomId();
+                socket.emit('check-room-info', event.roomID);
+                socket.on('check-room-info', res => {
+                    if(res) this.changeState(event);
+                })
+            },
+            generateRoomId: function(){
+                return Math.random().toString(32).substr(8);
+            },
+            getPlayerName: function(){
+                socket.on('get-player-name', res => {
+                    this.playerName = res;
+                })
             }
         },
         mounted: function () {
 
         }
     })
+
 </script>
 </html>
