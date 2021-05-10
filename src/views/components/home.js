@@ -20,17 +20,17 @@ Vue.component('home-view', {
             </div>
             <div class="mb-3">
                 <label for="game-id" class="form-label">ID de partie à rejoindre :</label>
-                <input type="text" class="form-control" id="game-id" v-model="gameID">
+                <input type="text" class="form-control" id="game-id" v-model="roomID">
             </div>
-            <button type="submit" class="btn btn-primary" id="form-button-create" @click="$emit('create', {username: username, gameID: gameID});">Créer une partie</button>
-            <button type="submit" class="btn btn-secondary" id="form-button-join"  @click="$emit('join', {username: username, gameID: gameID})">Rejoindre une partie</button>
+            <button type="submit" class="btn btn-primary" id="form-button-create" @click="$emit('create', {username: username, roomID: roomID});">Créer une partie</button>
+            <button type="submit" class="btn btn-secondary" id="form-button-join"  @click="$emit('join', {username: username, roomID: roomID})">Rejoindre une partie</button>
         </div>
     </div>
 </div>`,
     data(){
         return{
             username: null,
-            gameID: null
+            roomID: null
         }
     },
     methods:{

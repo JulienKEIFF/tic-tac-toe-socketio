@@ -14,11 +14,14 @@
     <home-view
             v-if="home"
             @create="createGame"
+            @join="joinGame"
     > </home-view>
 
     <game-view
+            ref="gamePage"
             v-if="!home"
             @back="changeState"
+            @click-case="setSymbol"
             :playername="playerName"
             :gameid="gameID"
     > </game-view>
@@ -45,8 +48,12 @@
                     socket.emit('join', {username: event.username, room: event.roomID});
                     this.getPlayerName()
                     this.gameID = event.roomID;
+                    socket.on('play', ev => { this.$refs.gamePage.start(ev) })
+                    socket.on('board', ev => { this.$refs.gamePage.updateBoard(ev) })
+                    socket.on('win', ev => { this.$refs.gamePage.win(ev) })
                 }
             },
+
             checkInfos: function() {
                 if(this.create){
                     if(this.username !== null && this.username !== "" ) return true
@@ -56,6 +63,7 @@
                     else return false
                 }
             },
+
             createGame: function(event){
                 this.create = true;
                 this.username = event.username;
@@ -66,17 +74,25 @@
                     if(res) this.changeState(event);
                 })
             },
+
+            joinGame: function(event){
+                socket.emit('check-room-info', event.gameID);
+                socket.on('check-room-info', res => { if(res) this.changeState(event) })
+            },
+
             generateRoomId: function(){
                 return Math.random().toString(32).substr(8);
             },
+
             getPlayerName: function(){
                 socket.on('get-player-name', res => {
                     this.playerName = res;
                 })
-            }
-        },
-        mounted: function () {
+            },
 
+            setSymbol: function(ev){
+                socket.emit('played', {room: this.gameID, playedCase: ev})
+            }
         }
     })
 
