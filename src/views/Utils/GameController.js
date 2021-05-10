@@ -1,13 +1,15 @@
 import { X_SIGN, O_SIGN, winboard } from './GameUtils';
 
 export default class GameController {
-    isReady = false;
     gameID = "";
+
     player1 = "";
     player2 = "";
     player1Socket = "";
     player2Socket = ""
+
     thisTurnPlayer = "";
+    thisWinner = ""
 
     #board = ["", "", "", "", "", "", "", "", ""];
 
@@ -18,8 +20,6 @@ export default class GameController {
         this.player1Socket = player1socket;
         this.player2Socket = player2socket;
         this.thisTurnPlayer = player1;
-
-        this.isReady = true;
     }
 
     setBoard(index) {
@@ -39,7 +39,9 @@ export default class GameController {
             if(
                 (symbol[0] == this.#board[winCondition[0]] && symbol[0] == this.#board[winCondition[1]] && symbol[0] == this.#board[winCondition[2]]) ||
                 (symbol[1] == this.#board[winCondition[0]] && symbol[1] == this.#board[winCondition[1]] && symbol[1] == this.#board[winCondition[2]])
-            ){ return true }
+            ){
+                return true
+            }
         }
     }
 

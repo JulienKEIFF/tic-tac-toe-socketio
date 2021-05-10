@@ -28,6 +28,7 @@ Vue.component('game-view', {
     
     <h3 v-if="waitForOponnent">En attente d'un adversaire ...</h3>
     <h3 v-if="waitForPlay">Tour de l'adversaire</h3>
+    <button v-if="replayButton" class="btn btn-primary">Rejouer</button>
     </div>
 </div>
     `,
@@ -38,6 +39,7 @@ Vue.component('game-view', {
             gameStarted: false,
             waitForOponnent: true,
             waitForPlay: false,
+            replayButton: false,
             board: [],
         }
     },
@@ -60,6 +62,8 @@ Vue.component('game-view', {
 
         win: function(ev){
           alert('il y a un gagnant')
+            this.canClick = false;
+            this.replayButton = true;
         },
 
         updateBoard: function(board){
